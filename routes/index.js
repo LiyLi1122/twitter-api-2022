@@ -5,8 +5,10 @@ const admin = require('./modules/admin')
 const adminController = require('../controllers/admin-controller')
 const userController = require('../controllers/user-controller')
 const tweetController = require('../controllers/tweet-controller')
+const followshipController = require('../controllers/followship-controller')
 const { errorHandler } = require('../middleware/error-handler')
 const { authenticated, authAdmin, authUser } = require('../middleware/auth')
+const { route } = require('./modules/admin')
 
 // admin
 router.post('/admin/signin', passport.authenticate('local', { session: false }), adminController.signin)
@@ -29,6 +31,9 @@ router.get('/tweets/:tweet_id/replies', authenticated, authUser, tweetController
 // likes
 router.post('/tweets/:id/like', authenticated, authUser, tweetController.likeTweet)
 router.post('/tweets/:id/unlike', authenticated, authUser, tweetController.unlikeTweet)
+
+// followship
+router.post('/followships', authenticated, authUser, followshipController.postFollowship)
 
 // error handler
 router.use('/', errorHandler)
